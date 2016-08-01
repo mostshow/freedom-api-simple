@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.5,minimum-scale=1.0,user-scalable=0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <title>简单串行请求</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+    <div class="fa">
+        <h2>freedom-api请求</h2>
+        <p>开始于: <span class='begin'></span></p>
+        <p>结束于: <span class="end"></span></p>
+        <p>持续时间: <span class="last"></span>毫秒</p>
+        <p class="data"></p>
+        <div class="button" id='start-fa'>
+            开始
+        </div>
+    </div>
+    <script type="text/javascript" src="./js/zepto.min.js"></script>
+    <script type="text/javascript">
+    var host = 'localhost';
+    //定义规则
+    var rule = {
+        dataTest: '$data.code === "0"',
+        start: [{
+            url: 'http://' + host + ':3000/getId',
+            type: 'get',
+            name: 'id',
+            params: {},
+            result: true
+        }, {
+            url: 'http://' + host + ':3000/getName',
+            type: 'get',
+            name: 'name',
+            params: {},
+            result: true,
+            then: 'getInfoByNameAndId'
+        }],
+        getInfoByNameAndId: {
+            url: 'http://' + host + ':3000/getInfoByNameAndId',
+            type: 'get',
+            name: 'info',
+            params: {
+                id: '$data[0].data.id',
+                name: '$data[1].data.name'
+            },
+            result: true,
+            then: false
+        }
+    };
+    rule = JSON.stringify(rule);
+    //事件监听
+    $('#start-fa').bind('click', function() {
+        var beginDate = new Date();
+        $('.fa .begin').html(formatDate(beginDate));
+        $.post('http://' + host + ':5000/freedomApi', {
+            rule: rule
+        }, function(data) {
+            var endDate = new Date();
+            $('.fa .end').html(formatDate(endDate));
+            $('.fa .last').html(endDate.getTime() - beginDate.getTime());
+            $('.fa .data').html(data);
+        });
+    });
+
+
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        var ms = date.getMilliseconds();
+
+        var str = year + '-' + month + '-' + day;
+        str = str + ' ' + hour + ':' + minutes + ':' + seconds;
+        str = str + ':' + ms;
+
+        return str;
+    }
+    </script>
+</body>
+
+</html>

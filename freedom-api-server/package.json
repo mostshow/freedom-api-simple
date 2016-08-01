@@ -1,0 +1,24 @@
+{
+  "name": "freedom-api-server",
+  "version": "1.0.0",
+  "description": "通用node接口合并方案，接口的控制权转移到前端，让接口更自由",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./app/bin/www"
+  },
+  "repository": {},
+  "keywords": [
+    "freedom-api-simple"
+  ],
+  "author": "zengwenfu",
+  "license": "ISC",
+  "bugs": {},
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "freedom-api": "^1.0.0"
+  },
+  "dependencies": {}
+}
