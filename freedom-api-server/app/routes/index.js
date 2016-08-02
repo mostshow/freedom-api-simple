@@ -10,11 +10,16 @@ router.post('/freedomApi', function(req, res, next) {
     //透传cookie，以便保持登录状态
     var cookie = req.get('Cookie');
 
-    freedomApi(rule, cookie, function(result, setCookie) {
-        //写回cookie
-        res.append('Set-Cookie', setCookie);
-        res.send(JSON.stringify(result));
+    freedomApi({
+        rule: rule,
+        cookie: cookie,
+        callback: function(result, setCookie) {
+            //写回cookie
+            res.append('Set-Cookie', setCookie);
+            res.send(JSON.stringify(result));
+        }
     });
+
 });
 
 module.exports = router;

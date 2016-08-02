@@ -77,8 +77,9 @@
         $('.normal .begin').html(formatDate(beginDate));
         $.get('http://' + host + ':3000/getId', {}, function(data1) {
             $('.normal .data1').html(data1);
+            data1 = JSON.parse(data1);  
             $.get('http://' +host + ':3000/getInfo', {
-                id: data1.id
+                id: data1.data.id
             }, function(data2) {
                 var endDate = new Date();
                 $('.normal .end').html(formatDate(endDate));
