@@ -13,6 +13,7 @@ router.post('/freedomApi', function(req, res, next) {
     freedomApi({
         rule: rule,
         cookie: cookie,
+        plugins: [],
         callback: function(result, setCookie) {
             //写回cookie
             res.append('Set-Cookie', setCookie);
